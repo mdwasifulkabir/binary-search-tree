@@ -11,18 +11,41 @@ class Tree {
     this.root = buildTree(arr)
   }
 
-  prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
-    if (node === null) {
+  prettyPrint(node = this.root, prefix = '', isLeft = true) {
+    if (!node) {
       return;
     }
-    if (node.right !== null) {
+    if (node.right) {
       this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-    if (node.left !== null) {
+    if (node.left) {
       this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   };
+
+  insert(data) {
+    if (this.root === null) {
+      return new Node(data)
+    } 
+    
+    if (data < this.root.data) {
+      root.left = this.insert(this.root.left, data)
+    } else {
+      root.right = this.insert(this.root.right, data)
+    }
+
+    return root
+  }
+
+  getSuccessor(curr) {
+    //get the inorder successor of the current node
+    curr = curr.right
+    while (curr !== null && curr.left !== null) {
+      curr = curr.left
+    }
+    return curr
+  }
 }
 
 function buildTree(arr, start, end) {
@@ -44,6 +67,7 @@ function createBST(arr, start, end) {
 }
 
 //main
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+arr = [1, 7, 4, 23, 8, 9, 99]
 bst = new Tree(arr, 0, arr.length - 1)
+bst.insert(234)
 bst.prettyPrint()
