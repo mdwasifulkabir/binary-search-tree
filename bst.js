@@ -24,15 +24,15 @@ class Tree {
     }
   };
 
-  insert(data) {
-    if (this.root === null) {
+  insert(data, root) {
+    if (root === null) {
       return new Node(data)
     } 
     
-    if (data < this.root.data) {
-      root.left = this.insert(this.root.left, data)
-    } else {
-      root.right = this.insert(this.root.right, data)
+    if (data < root.data) {
+      root.left = this.insert(data, root.left)
+    } else if (data > root.data) {
+      root.right = this.insert(data, root.right)
     }
 
     return root
@@ -69,5 +69,6 @@ function createBST(arr, start, end) {
 //main
 arr = [1, 7, 4, 23, 8, 9, 99]
 bst = new Tree(arr, 0, arr.length - 1)
-bst.insert(234)
+bst.insert(234, bst.root)
+bst.insert(333, bst.root)
 bst.prettyPrint()
