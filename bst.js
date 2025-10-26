@@ -1,6 +1,6 @@
 class Node {
-  constructor(data) {
-    this.data = data 
+  constructor(val) {
+    this.val = val 
     this.left = null
     this.right = null
   }
@@ -18,21 +18,21 @@ class Tree {
     if (node.right) {
       this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.val}`);
     if (node.left) {
       this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   };
 
-  insert(data, root) {
+  insert(val, root) {
     if (root === null) {
-      return new Node(data)
+      return new Node(val)
     } 
     
-    if (data < root.data) {
-      root.left = this.insert(data, root.left)
-    } else if (data > root.data) {
-      root.right = this.insert(data, root.right)
+    if (val < root.val) {
+      root.left = this.insert(val, root.left)
+    } else if (val > root.val) {
+      root.right = this.insert(val, root.right)
     }
 
     return root
@@ -46,9 +46,35 @@ class Tree {
     }
     return curr
   }
+
+  delete(val, root) {
+    if (root === null) {
+      return root
+    }
+    
+    if (val > root.val) {
+      root.right = this.delete(val, root.right)
+    } else if (val < root.val) {
+      root.left = this.delete(val, root.left)
+    } else {
+      //if node has 0 or 1 child
+      if (root.left === null) {
+        return root.right
+      }
+
+      if (root.right === null) {
+        return root.left
+      }
+      //if node has 2 children
+      const successor = this.getSuccessor(root)
+      root.right = this.delete(successor.val, root.right)
+      root.val = successor.val
+    }
+    return root
+  }
 }
 
-function buildTree(arr, start, end) {
+function buildTree(arr) {
   //remove duplicates and sort
   arr = [...new Set(arr)]
   arr.sort((a, b) => a - b)
@@ -71,4 +97,5 @@ arr = [1, 7, 4, 23, 8, 9, 99]
 bst = new Tree(arr, 0, arr.length - 1)
 bst.insert(234, bst.root)
 bst.insert(333, bst.root)
+bst.delete(23, bst.root)
 bst.prettyPrint()
