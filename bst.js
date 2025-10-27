@@ -86,6 +86,25 @@ class Tree {
 
     return node
   }
+
+  levelOrderForEach(callback, root = this.root) { 
+    //check if callback is provided and is a function
+    if (!callback || typeof callback !== 'function') {
+      throw new Error("A callback function must be provided")
+    }
+
+    if (root === null) return
+    let q = []
+    q.push(root)
+    let curr = null
+
+    while(q.length > 0) {
+      curr = q.shift()
+      callback(curr)
+      if (curr.left !== null) q.push(curr.left)
+      if (curr.right !== null) q.push(curr.right)
+    }
+  }
 }
 
 function buildTree(arr) {
@@ -112,5 +131,7 @@ bst = new Tree(arr, 0, arr.length - 1)
 bst.insert(234, bst.root)
 bst.insert(333, bst.root)
 bst.delete(23, bst.root)
-node = bst.find(2323)
+bst.prettyPrint()
+
+bst.levelOrderForEach((node) => node.val += 1)
 bst.prettyPrint()
