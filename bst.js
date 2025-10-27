@@ -24,7 +24,7 @@ class Tree {
     }
   };
 
-  insert(val, root) {
+  insert(val, root = this.root) {
     if (root === null) {
       return new Node(val)
     } 
@@ -47,7 +47,7 @@ class Tree {
     return curr
   }
 
-  delete(val, root) {
+  delete(val, root = this.root) {
     if (root === null) {
       return root
     }
@@ -71,6 +71,20 @@ class Tree {
       root.val = successor.val
     }
     return root
+  }
+
+  find(val, root = this.root) {
+    if (root === null) return null
+    if(root.val === val) return root
+
+    let node = null
+    if (val > root.val) {
+      node = this.find(val, root.right)
+    } else if (val < root.val) {
+      node = this.find(val, root.left)
+    }
+
+    return node
   }
 }
 
@@ -98,4 +112,5 @@ bst = new Tree(arr, 0, arr.length - 1)
 bst.insert(234, bst.root)
 bst.insert(333, bst.root)
 bst.delete(23, bst.root)
+node = bst.find(2323)
 bst.prettyPrint()
