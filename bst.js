@@ -105,6 +105,39 @@ class Tree {
       if (curr.right !== null) q.push(curr.right)
     }
   }
+
+  inOrderForEach(callback, root = this.root) {
+    if (!callback || typeof callback !== 'function') {
+      throw new Error("A callback function must be provided")
+    }
+    if(root === null) return 
+
+    if(root.left !== null) this.inOrderForEach(callback, root.left)
+    callback(root)
+    if(root.right !== null) this.inOrderForEach(callback, root.right)
+  }
+
+  preOrderForEach(callback, root = this.root) {
+    if (!callback || typeof callback !== 'function') {
+      throw new Error("A callback function must be provided")
+    }
+    if(root === null) return 
+
+    callback(root)
+    if(root.left !== null) this.inOrderForEach(callback, root.left)
+    if(root.right !== null) this.inOrderForEach(callback, root.right)
+  }
+
+  postOrderForEach(callback, root = this.root) {
+    if (!callback || typeof callback !== 'function') {
+      throw new Error("A callback function must be provided")
+    }
+    if(root === null) return 
+
+    if(root.left !== null) this.inOrderForEach(callback, root.left)
+    if(root.right !== null) this.inOrderForEach(callback, root.right)
+    callback(root)
+  }
 }
 
 function buildTree(arr) {
@@ -133,5 +166,5 @@ bst.insert(333, bst.root)
 bst.delete(23, bst.root)
 bst.prettyPrint()
 
-bst.levelOrderForEach((node) => node.val += 1)
+bst.inOrderForEach((node) => node.val += 1, bst.root)
 bst.prettyPrint()
