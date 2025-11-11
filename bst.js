@@ -151,18 +151,18 @@ class Tree {
     return nodeHeight(node)
   }
 
-  depth(val, root = this.root, counter = 0) {
-    if (root === null) return null
-    if(root.val === val) return counter
+  depth(val) {
+    if (!this.root) return null
+    let depth = 0
+    let curr = this.root
 
-    let node = null
-    if (val > root.val) {
-      counter 
-    } else if (val < root.val) {
-      node = this.find(val, root.left)
+    while (curr !== null) {
+      if (val === curr.val) return depth
+      curr = val < curr.val ? curr.left : curr.right
+      depth++
     }
 
-    return node
+    return null
   }
 }
 
@@ -195,3 +195,4 @@ bst.prettyPrint()
 bst.inOrderForEach((node) => node.val += 1, bst.root)
 bst.prettyPrint()
 console.log(bst.height(9))
+console.log(bst.depth(334))
