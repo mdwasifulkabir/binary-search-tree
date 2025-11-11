@@ -138,6 +138,32 @@ class Tree {
     if(root.right !== null) this.inOrderForEach(callback, root.right)
     callback(root)
   }
+
+  height(val) {
+    const node = this.find(val, this.root)
+    if (!node) return null
+
+    function nodeHeight(n) {
+      if (!n) return -1
+      return 1 + Math.max(nodeHeight(n.left), nodeHeight(n.right))
+    }
+
+    return nodeHeight(node)
+  }
+
+  depth(val, root = this.root, counter = 0) {
+    if (root === null) return null
+    if(root.val === val) return counter
+
+    let node = null
+    if (val > root.val) {
+      counter 
+    } else if (val < root.val) {
+      node = this.find(val, root.left)
+    }
+
+    return node
+  }
 }
 
 function buildTree(arr) {
@@ -168,3 +194,4 @@ bst.prettyPrint()
 
 bst.inOrderForEach((node) => node.val += 1, bst.root)
 bst.prettyPrint()
+console.log(bst.height(9))
