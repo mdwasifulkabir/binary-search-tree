@@ -73,8 +73,7 @@ class Tree {
     return root
   }
 
-  find(val, root = this.root) {
-    if (root === null) return null
+  find(val) {
     if(root.val === val) return root
 
     let node = null
@@ -141,18 +140,18 @@ class Tree {
 
   height(val) {
     const node = this.find(val, this.root)
-    if (!node) return null
+    if (node === null) return null
 
     function nodeHeight(n) {
       if (!n) return -1
       return 1 + Math.max(nodeHeight(n.left), nodeHeight(n.right))
     }
-
+    
     return nodeHeight(node)
   }
 
   depth(val) {
-    if (!this.root) return null
+    if (this.root === null) return null
     let depth = 0
     let curr = this.root
 
@@ -164,6 +163,25 @@ class Tree {
 
     return null
   }
+
+  isBalanced(root = this.root) {
+    if (root === null) return true;
+
+    const height = (node) => {
+      if (node === null) return -1;
+      return 1 + Math.max(height(node.left), height(node.right));
+    };
+
+    const leftHeight = height(root.left);
+    const rightHeight = height(root.right);
+
+    const balanceOK = Math.abs(leftHeight - rightHeight) <= 1;
+
+    return balanceOK &&
+           this.isBalanced(root.left) &&
+           this.isBalanced(root.right);
+  }
+  
 }
 
 function buildTree(arr) {
