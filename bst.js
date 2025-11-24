@@ -182,6 +182,14 @@ class Tree {
            this.isBalanced(root.right);
   }
   
+    rebalance() {
+    // Step 1: Gather nodes in sorted order
+    const values = [];
+    this.inOrderForEach((node) => values.push(node.val));
+
+    // Step 2: Rebuild the BST from the sorted values
+    this.root = buildTree(values);
+  }
 }
 
 function buildTree(arr) {
