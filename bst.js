@@ -73,7 +73,7 @@ class Tree {
     return root
   }
 
-  find(val) {
+  find(val, root = this.root) {
     if(root.val === val) return root
 
     let node = null
@@ -123,8 +123,8 @@ class Tree {
     if(root === null) return 
 
     callback(root)
-    if(root.left !== null) this.inOrderForEach(callback, root.left)
-    if(root.right !== null) this.inOrderForEach(callback, root.right)
+    if(root.left !== null) this.preOrderForEach(callback, root.left)
+    if(root.right !== null) this.preOrderForEach(callback, root.right)
   }
 
   postOrderForEach(callback, root = this.root) {
