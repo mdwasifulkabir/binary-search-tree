@@ -67,8 +67,8 @@ class Tree {
       }
       //if node has 2 children
       const successor = this.getSuccessor(root)
-      root.right = this.delete(successor.val, root.right)
       root.val = successor.val
+      root.right = this.delete(successor.val, root.right)
     }
     return root
   }
@@ -133,8 +133,8 @@ class Tree {
     }
     if(root === null) return 
 
-    if(root.left !== null) this.inOrderForEach(callback, root.left)
-    if(root.right !== null) this.inOrderForEach(callback, root.right)
+    if(root.left !== null) this.postOrderForEach(callback, root.left)
+    if(root.right !== null) this.postOrderForEach(callback, root.right)
     callback(root)
   }
 
@@ -210,15 +210,46 @@ function createBST(arr, start, end) {
   return root
 }
 
-//main
-arr = [1, 7, 4, 23, 8, 9, 99]
-bst = new Tree(arr, 0, arr.length - 1)
-bst.insert(234, bst.root)
-bst.insert(333, bst.root)
-bst.delete(23, bst.root)
-bst.prettyPrint()
+// ===============================
+// DRIVER SCRIPT
+// ===============================
 
-bst.inOrderForEach((node) => node.val += 1, bst.root)
-bst.prettyPrint()
-console.log(bst.height(9))
-console.log(bst.depth(334))
+const arr = [1, 7, 4, 23, 8, 9, 99];
+const bst = new Tree(arr);
+
+console.log("Initial tree:");
+bst.prettyPrint();
+
+console.log("Balanced?", bst.isBalanced());
+
+// print traversals
+let inOrder = [];
+bst.inOrderForEach(node => inOrder.push(node.val));
+console.log("In-order:", inOrder);
+
+let preOrder = [];
+bst.preOrderForEach(node => preOrder.push(node.val));
+console.log("Pre-order:", preOrder);
+
+let postOrder = [];
+bst.postOrderForEach(node => postOrder.push(node.val));
+console.log("Post-order:", postOrder);
+
+// unbalance the tree
+bst.insert(101);
+bst.insert(102);
+bst.insert(103);
+bst.insert(104);
+
+console.log("After inserting big values:");
+bst.prettyPrint();
+
+console.log("Balanced now?", bst.isBalanced());
+
+// rebalance the tree
+bst.rebalance();
+
+console.log("After rebalancing:");
+bst.prettyPrint();
+
+console.log("Balanced now?", bst.isBalanced());
